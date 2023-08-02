@@ -27,11 +27,13 @@ If you are a developer interested in contributing to the Cart-O eCommerce Assist
 2. **Install Dependencies**: Navigate to the bot's directory and install the required dependencies using npm.
 
 3. **Configure the Bot**: Create a `.env` file in the root directory of the bot and add the following environment variables:
-SERVERID=123456789
-CHANNELID=123456789
-TOKEN=TOKEN_DISCORD_BOT
-CLIENT_ID=DISCORD_CLIENT_ID
+```
+SERVERID=123456789  
+CHANNELID=123456789  
+TOKEN=TOKEN_DISCORD_BOT  
+CLIENT_ID=DISCORD_CLIENT_ID  
 MONGODB_URL=MONGO_URL
+```  
 4. **Run the Bot**: Use `node index.js` to start the Cart-O eCommerce Assistant Discord Bot on your server.
 
 
