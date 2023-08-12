@@ -25,7 +25,6 @@ async function handleServerCommand(interaction) {
   const products = await collection.find({}).toArray();
   const data = products[Math.floor(Math.random() * products.length)];
 
-
   let exampleEmbed = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle(data.name)
@@ -38,12 +37,32 @@ async function handleServerCommand(interaction) {
       { name: "\u200B", value: "\u200B" }
     )
     .setImage(data.images[0])
-    .setTimestamp()
-    .setFooter("Ushi Here no fear: ");
-    
-
+    .setTimestamp();
   await interaction.reply({ embeds: [exampleEmbed] });
 }
+
+const getNewProduct = async (interaction) => {
+  const mongoClient = await connectToCluster(process.env.MONGODB_URL);
+  const db = mongoClient.db("cart");
+  const collection = db.collection("products");
+  const products = await collection.find({}).toArray();
+  const data = products[products.length - 1];
+
+  let exampleEmbed = new EmbedBuilder()
+    .setColor(0x9900FF)
+    .setTitle(data.name)
+    .setDescription(
+      `Category: ${data.category}\n\nPrice: $${data.price}\n\nStock: ${data.stock}`
+    )
+    .setThumbnail(data.images[0])
+    .addFields(
+      { name: "Prodcut Details: ", value: data.spec },
+      { name: "\u200B", value: "\u200B" }
+    )
+    .setImage(data.images[0])
+    .setTimestamp();
+  await interaction.reply({ embeds: [exampleEmbed] });
+};
 
 client.on("interactionCreate", (interaction) => {
   if (!interaction.isCommand()) return;
@@ -70,6 +89,10 @@ client.on("interactionCreate", (interaction) => {
         .setColor("#0000FF");
       interaction.reply({ embeds: [message] });
       break;
+    case "new":
+      getNewProduct(interaction);
+      break;
+
     default:
       interaction.reply("Unknown command");
       break;
@@ -77,3 +100,5 @@ client.on("interactionCreate", (interaction) => {
 });
 
 client.login(process.env.TOKEN);
+
+
